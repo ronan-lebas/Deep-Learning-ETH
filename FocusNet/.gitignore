@@ -1,2 +1,8 @@
 **/dataset/
 **/dataset_cropped/
+**/processed_dataset/
+**/wandb/
+**/__pycache__/
+*.png
+*.pdf
+*.pth
