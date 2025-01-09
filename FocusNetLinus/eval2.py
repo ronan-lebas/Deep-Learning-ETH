@@ -8,13 +8,13 @@ from torchvision import transforms
 from focusnet import FocusNet, FocusNetDataset
 
 
-def eval(expansion_ratio, device,model):
+def eval(expansion_ratio, device,model,weights):
     # Device setup
 
     ANNOTATION_FILE = 'instances_train_trashcan_expanded.json'
     IMAGE_DIR = 'train'
     OUTPUT_PDF = 'annotated_images_inference.pdf'
-    NUM_IMAGES = 40  # Total number of images to include in the PDF
+    NUM_IMAGES = 56  # Total number of images to include in the PDF
     NUM_IMAGES_PER_PAGE = 8
 
     # Dataset and Model
@@ -31,7 +31,7 @@ def eval(expansion_ratio, device,model):
     )
 
     # Load Pre-trained Model
-    model.load_state_dict(torch.load('best_focusnet_model.pth', weights_only=True, map_location=device))
+    model.load_state_dict(torch.load(weights, weights_only=True, map_location=device))
     model.eval()
 
     def denormalize_bbox(bbox, img_width, img_height):
@@ -46,10 +46,10 @@ def eval(expansion_ratio, device,model):
     # Create a PDF file
     with PdfPages(OUTPUT_PDF) as pdf:
         for page_start in range(0, min(NUM_IMAGES, len(dataset)), NUM_IMAGES_PER_PAGE):  # 6 images per page
-            fig, axes = plt.subplots(3, 2, figsize=(16, 24))  # 3 rows x 2 columns
+            fig, axes = plt.subplots(NUM_IMAGES_PER_PAGE//2, 2, figsize=(16, 24))  # 3 rows x 2 columns
             axes = axes.flatten()
 
-            for i in range(6):  # Process 6 images per page
+            for i in range(NUM_IMAGES_PER_PAGE):  # Process 6 images per page
                 idx = page_start + i
                 if idx >= len(dataset):
                     axes[i].axis('off')

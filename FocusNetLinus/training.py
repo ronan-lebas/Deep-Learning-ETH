@@ -8,7 +8,7 @@ from tqdm import tqdm
 from focusnet import FocusNetDataset, FocusNetROI
 
 
-def train(expansion_ratio, device):
+def train(expansion_ratio, device, model):
     # Dataset and DataLoader
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
@@ -34,11 +34,10 @@ def train(expansion_ratio, device):
     val_loader = DataLoader(dataset_val, batch_size=16, shuffle=True)
 
     # Model, Loss, Optimizer
-    model = FocusNetROI().to(device)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     # Configuration
-    num_epochs = 50
-    patience = 5  # Number of epochs to wait for improvement
+    num_epochs = 70
+    patience = 8  # Number of epochs to wait for improvement
     min_delta = 1e-4  # Minimum improvement to reset patience counter
     save_path = 'best_focusnet_model.pth'
 
