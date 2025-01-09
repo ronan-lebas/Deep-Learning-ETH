@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader, random_split
 from FocusNet import FocusNet
 from FocusNetv2 import FocusNetv2
 from FocusNetv3 import FocusNetv3
+from FocusNetv4 import FocusNetv4
 import wandb
 from tqdm import tqdm
 import os
@@ -43,7 +44,7 @@ def train_model(full_train_dataset, test_dataset, config):
     test_loader = DataLoader(test_dataset, batch_size=config.batch_size, shuffle=False)
 
     # Initialize model, loss function, and optimizer
-    model = FocusNetv3()
+    model = FocusNetv4()
     #criterion = nn.SmoothL1Loss()
     criterion = custom_loss
 
