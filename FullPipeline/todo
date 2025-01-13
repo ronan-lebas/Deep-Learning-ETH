@@ -8,6 +8,33 @@ e -> We run focus net to tight the bounding box
 f -> Store the result
 q° : first generate all images, or gen images + focus net and iterate (maybe gen all images more efficient if loading time for model)
 
+
+proposition for architecture organisation:
+1. Dataset Management:
+This will handle loading, augmenting, and managing images from the dataset.
+2. Image Augmentation:
+This handles tasks like creating masks, generating bounding boxes, and applying inpainting with specific prompts.
+3. Model Interface:
+Manages the inpainting model and the bounding box optimization process (FocusNet).
+4. Experiment Pipeline:
+Coordinates all components: loading images, augmenting them, running FocusNet, and saving results.
+
+project/
+├── dataset/
+│   ├── trashcan_dataset.py  # Handles dataset loading and sampling
+├── augmentation/
+│   ├── augmentation_utils.py  # Bounding box generation, masks
+├── models/
+│   ├── focus_net.py  # Handles FocusNet integration
+│   ├── inpainting_model.py  # Manages LoRA and inpainting pipeline
+├── main_pipeline.py  # Coordinates the end-to-end process
+├── config.py  # Configuration parameters, required ?
+└── utils/
+    ├── utils.py  # Utility functions for image processing, etc.
+
+
 2 - Compare with baseline
 a - train exact same model as baseline on the new dataset
 b - retrain the models on trashcan ? or using litterature eval
+
+
