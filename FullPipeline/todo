@@ -1,0 +1,13 @@
+1 - Create the augmented dataset
+
+a -> Let says add N = 10k images
+b -> We draw 10k images from the trashcan dataset
+c -> on each image we draw a position (a bounding box) (do we exclude object = rover?, bc its always the same rover so if we generate maybe we create more random stuff like other robots than what must be detected + the detectors are already performant with this) 
+d -> We impaint this image (with a random class OR the class that was present here ?)
+e -> We run focus net to tight the bounding box
+f -> Store the result
+q° : first generate all images, or gen images + focus net and iterate (maybe gen all images more efficient if loading time for model)
+
+2 - Compare with baseline
+a - train exact same model as baseline on the new dataset
+b - retrain the models on trashcan ? or using litterature eval
