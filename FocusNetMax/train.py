@@ -6,6 +6,7 @@ from FocusNet import FocusNet
 from FocusNetv2 import FocusNetv2
 from FocusNetv3 import FocusNetv3
 from FocusNetv4 import FocusNetv4
+from FocusNetv5 import FocusNetv5
 import wandb
 from tqdm import tqdm
 import os
@@ -44,16 +45,16 @@ def train_model(full_train_dataset, test_dataset, config):
     test_loader = DataLoader(test_dataset, batch_size=config.batch_size, shuffle=False)
 
     # Initialize model, loss function, and optimizer
-    model = FocusNetv4()
+    model = FocusNetv5()
     #criterion = nn.SmoothL1Loss()
     criterion = custom_loss
 
     if config.optimizer == "SGD":
         optimizer = optim.SGD(model.parameters(), lr=config.learning_rate, momentum=0.9)
-    elif config.optimizer == "adam":
+    elif config.optimizer == "Adam":
         optimizer = optim.Adam(model.parameters(), lr=config.learning_rate)
     else:
-        raise ValueError("Unsupported optimizer. Use 'sgd' or 'adam'.")
+        raise ValueError("Unsupported optimizer. Use 'SGD' or 'Adam'.")
 
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, mode="min", factor=0.1, patience=5, verbose=True

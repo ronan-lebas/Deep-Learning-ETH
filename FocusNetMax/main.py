@@ -7,8 +7,8 @@ from train import train_model
 wandb.init(
 project="focusnet-bbox-refinement",
 config={
-    "model": "FocusNetv4",
-    "batch_size": 16,
+    "model": "FocusNetv5",
+    "batch_size": 8,
     "learning_rate": 0.065,
     "early_stop_patience": 15,
     "epochs": 150,
