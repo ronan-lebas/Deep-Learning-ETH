@@ -43,6 +43,14 @@ class TrashCanDataset(Dataset):
         """Return the image ID corresponding to the given index."""
         image_ids = list(self.images.keys())
         return image_ids[index]
+    
+    def get_random_image_id(self):
+        """
+        Get a random image ID.
+
+        :return: The ID of a random image.
+        """
+        return random.choice(list(self.images.keys()))
 
     def load_image(self, image_id):
         """
@@ -89,4 +97,5 @@ class TrashCanDataset(Dataset):
         if image_id not in self.annotations:
             raise ValueError(f"No annotations found for image ID {image_id}.")
 
-        return random.choice(self.annotations[image_id])
+        random_bbox = random.choice(self.annotations[image_id])
+        return random_bbox['bbox'], random_bbox['category_id']

@@ -1,4 +1,5 @@
 DATASET_PATH = "TrashCan/instance_version/"
-INPAINTING_MODEL_PATH = "stabilityai/stable-diffusion-2-inpainting"
-LORA_WEIGHTS = "weights/LoRA_2_pytorch_lora_weights.safetensors"
-FOCUS_NET_PATH = "weights/focus_net.pth"
+AUGMENTED_DATASET_PATH = "augmented_dataset/"
+LORA_PATH = "weights/"
+LORA_WEIGHTS = "LoRA_2_pytorch_lora_weights.safetensors"
+FOCUS_NET_PATH = "weights/FocusNetv4_Mbasic_padding_LL1+IOU_OSGD_LR0.065_E150.pth"

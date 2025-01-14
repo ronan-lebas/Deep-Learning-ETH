@@ -2,13 +2,14 @@ from diffusers import AutoPipelineForInpainting
 import torch
 
 class InpaintingPipeline:
-    def __init__(self, model_path: str):
+    def __init__(self):
         self.pipeline = AutoPipelineForInpainting.from_pretrained(
-            model_path, torch_dtype=torch.float16, variant="fp16"
+            "stabilityai/stable-diffusion-2-inpainting", torch_dtype=torch.float16, variant="fp16"
         )
+        self.pipeline.to("cuda")
 
-    def load_lora_weights(self, lora_path: str):
-        self.pipeline.load_lora_weights(lora_path)
+    def load_lora_weights(self, model_path: str, model_name: str):
+        self.pipeline.load_lora_weights(model_path, weight_name=model_name)
         self.pipeline.enable_model_cpu_offload()
 
     def apply_inpainting(self, prompt: str, negative_prompt: str, init_image, mask_image):
