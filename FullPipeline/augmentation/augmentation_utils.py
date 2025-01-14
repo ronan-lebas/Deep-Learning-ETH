@@ -33,4 +33,18 @@ def generate_mask(image, bbox):
     draw.rectangle(rectangle, fill=255)
 
     return mask
-   
+
+
+def square_padding(image, fill_color=(0, 0, 0)):
+    """Adds padding to make the image square.
+
+    Args:
+        image (PIL.Image.Image): Image to be padded.
+        fill_color (tuple, optional): Color to be used for padding. Defaults to (0, 0, 0).
+    """
+    
+    width, height = image.size
+    max_dim = max(width, height)
+    padded_image = Image.new("RGB", (max_dim, max_dim), fill_color)
+    padded_image.paste(image, ((max_dim - width) // 2, (max_dim - height) // 2))
+    return padded_image
