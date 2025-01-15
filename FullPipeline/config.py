@@ -1,4 +1,4 @@
-DATASET_PATH = "TrashCan/instance_version/"
+DATASET_PATH = "../dataset/instance_version/"
 AUGMENTED_DATASET_PATH = "augmented_dataset/"
 LORA_PATH = "weights/"
 LORA_WEIGHTS = "LoRA_2_pytorch_lora_weights.safetensors"

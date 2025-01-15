@@ -12,13 +12,15 @@ class InpaintingPipeline:
         self.pipeline.load_lora_weights(model_path, weight_name=model_name)
         self.pipeline.enable_model_cpu_offload()
 
-    def apply_inpainting(self, prompt: str, negative_prompt: str, init_image, mask_image):
-        generator = torch.Generator("cuda").manual_seed(92)
+    def apply_inpainting(self, prompt: str, negative_prompt: str, init_image, mask_image, strength=1, padding_mask_crop: float = 32, num_inference_steps: int = 50):
+        generator = torch.Generator("cuda")# .manual_seed(92)
         return self.pipeline(
             prompt=prompt,
             negative_prompt=negative_prompt,
             image=init_image,
             mask_image=mask_image,
-            strength=1,
-            generator=generator
+            strength=strength,
+            padding_mask_crop=padding_mask_crop,
+            generator=generator,
+            num_inference_steps=num_inference_steps,
         ).images[0]

@@ -24,8 +24,9 @@ class AugmentationPipeline:
     ):
         self.dataset = TrashCanDataset(os.path.join(dataset_path, "instances_train_trashcan.json"), os.path.join(dataset_path,"train"))
         self.inpainting = InpaintingPipeline()
+        self.inpainting.load_lora_weights(LORA_PATH, LORA_WEIGHTS)
         self.focus_net = FocusNetv4()
-        self.focus_net.load_state_dict(torch.load(focus_net_path), weights_only=True)
+        self.focus_net.load_state_dict(torch.load(focus_net_path))
         self.focus_net.eval()
 
     def generate_one_augmented_image(self):
@@ -44,10 +45,13 @@ class AugmentationPipeline:
 
         #Apply inpainting with the model
         inpainted_image = self.inpainting.apply_inpainting(
-            prompt="a piece of trash floating underwater, realistic, blend with the environment",
+            prompt="a single piece of trash underwater, realistic, blend with the environment",
             negative_prompt="text, clean, clear, nothing",
             init_image=image,
-            mask_image=mask
+            mask_image=mask,
+            strength=0.95,
+            padding_mask_crop=64,
+            num_inference_steps=50,
         )
 
         # Refine the bounding box with FocusNet
@@ -62,15 +66,18 @@ class AugmentationPipeline:
 
         return image, inpainted_image, mask, metadata
 
-    def generate_augmented_images(self, output_dir: str, num_images: int = 10000):
+    def generate_augmented_images(self, output_dir: str, num_images: int = 10_000):
         os.makedirs(output_dir, exist_ok=True)
 
         for i in tqdm(range(num_images), desc="Generating images"):
-            image, masked_image, metadata = self.generate_one_augmented_image()
-
+            try:
+                image, inpainted_image, mask, metadata = self.generate_one_augmented_image()
+            except ValueError as e:
+                print(f"Error: {e}")
+                continue
             # Save the image and metadata
-            image.save(os.path.join(output_dir, f"image_{i}.png"))
-            masked_image.save(os.path.join(output_dir, f"masked_image_{i}.png"))
+            draw_bbox(inpainted_image, metadata["original_bbox"]).save(os.path.join(output_dir, f"image_{i}.png"))
+            #masked_image.save(os.path.join(output_dir, f"masked_image_{i}.png"))
             with open(os.path.join(output_dir, f"metadata_{i}.json"), "w") as f:
                 json.dump(metadata, f)
 
@@ -84,14 +91,17 @@ if __name__ == "__main__":
         LORA_WEIGHTS,
         FOCUS_NET_PATH,
     )
-    image, inpainted_image, mask, metadata = pipeline.generate_one_augmented_image()
+    """ image, inpainted_image, mask, metadata = pipeline.generate_one_augmented_image()
     
     bbox_image = draw_bbox(image, metadata["original_bbox"])
-
+    bbox_inpaint = draw_bbox(inpainted_image, metadata["original_bbox"])
     # Save the image and metadata
     image.save("output_image.png")
     inpainted_image.save("output_inpainted_image.png")
+    bbox_inpaint.save("output_bbox_inpaint.png")
     bbox_image.save("output_bbox_image.png")
     mask.save("output_mask.png")
     
-    print(metadata)
+    print(metadata) """
+
+    pipeline.generate_augmented_images("augmented_dataset", 50)
