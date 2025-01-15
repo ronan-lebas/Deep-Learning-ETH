@@ -48,3 +48,37 @@ def square_padding(image, fill_color=(0, 0, 0)):
     padded_image = Image.new("RGB", (max_dim, max_dim), fill_color)
     padded_image.paste(image, ((max_dim - width) // 2, (max_dim - height) // 2))
     return padded_image
+
+def is_image_convenient(image, bbox, min_width, min_height):
+    """
+    Checks if the bounding box is convenient based on specified conditions.
+
+    Args:
+        image: a PIL Image object.
+        bbox: tuple (left, top, width, height) representing the bounding box.
+        min_width: Minimum allowable width for the bounding box.
+        min_height: Minimum allowable height for the bounding box.
+
+    Returns:
+        bool: True if the bounding box meets the criteria, False otherwise.
+    """
+    # Extract image dimensions
+    img_width, img_height = image.size
+
+    # Extract bounding box dimensions
+    left, top, width, height = bbox
+
+    # Condition 1: Ensure bbox dimensions are greater than the minimum required
+    if width < min_width or height < min_height:
+        print(f"Bounding box dimensions are too small: {width}x{height}")
+        return False
+
+    # Condition 2: Ensure bbox does not cover nearly the entire image
+    max_coverage_width = 0.95 * img_width
+    max_coverage_height = 0.95 * img_height
+
+    if width > max_coverage_width or height > max_coverage_height:
+        print(f"Bounding box dimensions are too large: {width}x{height}")
+        return False
+
+    return True

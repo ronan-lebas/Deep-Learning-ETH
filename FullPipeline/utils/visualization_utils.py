@@ -1,7 +1,7 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 
-def draw_bbox(image, bbox):
+def draw_bbox(image, bbox, color='red'):
     """
     Draws a bounding box on an image.
 
@@ -30,7 +30,7 @@ def draw_bbox(image, bbox):
     rectangle = [x, y, x + width, y + height]
 
     # Draw the rectangle (bounding box)
-    draw.rectangle(rectangle, outline="red", width=2)
+    draw.rectangle(rectangle, outline=color, width=2)
 
     return image_copy
 
@@ -66,3 +66,38 @@ def draw_mask(image, bbox):
     draw.rectangle(rectangle, fill="black")
 
     return image_copy
+
+def draw_label(image, label):
+    """
+    Draws a label (text) on the bottom-left of the image.
+    
+    Parameters:
+    - image: PIL.Image.Image, the input image.
+    - label: list of float, label in the format [center_x, center_y, width, height].
+    
+    Returns:
+    - PIL.Image.Image, the image with the label drawn on it.
+    """
+    # Ensure the image is in RGB mode
+    image = image.convert("RGB")
+    draw = ImageDraw.Draw(image)
+
+    # Load font
+    try:
+        font = ImageFont.truetype("arial.ttf", 22)  # Use a standard font
+    except IOError:
+        font = ImageFont.load_default(size=22)  # Fallback to default font if unavailable
+
+
+    # Set text position (bottom-left of the image)
+    text_x = 10  # Slight padding from the left
+    text_y = image.height - 22 - 10  # Slight padding from the bottom
+    
+    draw.rectangle(
+        [text_x - 5, text_y - 5, text_x + 330, text_y + 22 + 5], fill="black"
+    )
+
+    # Draw the text on top of the rectangle
+    draw.text((text_x, text_y), label, fill="white", font=font)
+
+    return image
