@@ -36,7 +36,7 @@ class AugmentationPipeline:
         self.focus_net.load_state_dict(torch.load(focus_net_path, weights_only=True))
         self.focus_net.eval()
         
-        self.prompts = prompts_v2
+        self.prompts = prompts
 
     def generate_one_augmented_image(self):
         """
@@ -138,4 +138,4 @@ if __name__ == "__main__":
         replaced_categories={17: [9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22]} # Replace the unknown category with the trash categories
     )
     
-    pipeline.generate_augmented_images(5)
+    pipeline.generate_augmented_images(100)
