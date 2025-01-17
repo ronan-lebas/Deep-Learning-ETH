@@ -116,5 +116,11 @@ class ImagePreprocessor:
 
 
 if __name__ == '__main__':
+    """
+    arguments:
+    mode: material_version OR instance_version. DEFAULT: material_version
+    split: train OR val OR both
+    path: <path to the folder one layer above dataset>. DEFAULT: ..
+    """
     print(f"Current directory: {os.getcwd()}")
     dataset = ImagePreprocessor("material_version", "train", "..")
