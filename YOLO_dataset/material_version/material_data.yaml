@@ -1,5 +1,5 @@
-path: ../../../../../../Deep-Learning-ETH/YOLO_dataset/material_version
-train: train/images
+path: ../../../../../../Deep-Learning-ETH/YOLO_dataset/material_version #Hardcoded for my computer. This path is relative wrt the directory where YOLO is installed
+train: train/images #Relatively to path.
 val: val/images
 
 names:
