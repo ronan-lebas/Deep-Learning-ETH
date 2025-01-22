@@ -4,7 +4,7 @@ export OUTPUT_DIR="results/results$now"
 
 accelerate launch --mixed_precision="no"  train_text_to_image_lora.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
-  --train_data_dir=dataset_finetuning2/ \
+  --train_data_dir=dataset_finetuning/ \
   --dataloader_num_workers=8 \
   --resolution=512 --center_crop --random_flip \
   --train_batch_size=1 \

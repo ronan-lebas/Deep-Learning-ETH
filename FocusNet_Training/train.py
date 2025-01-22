@@ -6,7 +6,6 @@ from FocusNet import FocusNet
 from FocusNetv2 import FocusNetv2
 from FocusNetv3 import FocusNetv3
 from FocusNetv4 import FocusNetv4
-from FocusNetv5 import FocusNetv5
 import wandb
 from tqdm import tqdm
 import os
@@ -45,7 +44,17 @@ def train_model(full_train_dataset, test_dataset, config):
     test_loader = DataLoader(test_dataset, batch_size=config.batch_size, shuffle=False)
 
     # Initialize model, loss function, and optimizer
-    model = FocusNetv5()
+    if config.model == "FocusNet":
+        model = FocusNet()
+    elif config.model == "FocusNetv2":
+        model = FocusNetv2()
+    elif config.model == "FocusNetv3":
+        model = FocusNetv3()
+    elif config.model == "FocusNetv4":
+        model = FocusNetv4()
+    else:
+        raise ValueError("Unsupported model. Use 'FocusNet', 'FocusNetv2', 'FocusNetv3', or 'FocusNetv4'.")
+    
     #criterion = nn.SmoothL1Loss()
     criterion = custom_loss
 
