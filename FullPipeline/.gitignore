@@ -1,3 +1,5 @@
 **/*.jpg
 **/*.jpg.json
 **/__pycache__/
+augmented_dataset/
+for_the_report/

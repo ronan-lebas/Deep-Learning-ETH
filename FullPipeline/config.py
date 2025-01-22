@@ -1,7 +1,7 @@
 DATASET_PATH = "TrashCan/instance_version/"
 AUGMENTED_DATASET_PATH = "augmented_dataset/"
 LORA_PATH = "weights/"
-LORA_WEIGHTS = "LoRA_2_pytorch_lora_weights.safetensors"
+LORA_WEIGHTS = "pytorch_lora_weights_checkpoint_2000.safetensors"
 FOCUS_NET_PATH = "weights/FocusNetv4_Mbasic_padding_LL1+IOU_OSGD_LR0.065_E150.pth"
 
 category_labels = {
@@ -35,7 +35,7 @@ prompts = {
     3: "a fish swimming underwater, realistic, blending with the marine environment",
     4: "a starfish resting on the seabed, realistic, blending with the marine environment",
     5: "shells on the seabed, realistic, blending with the environment",
-    6: "a crab walking on the ocean floor, realistic, clearly visible, blending with the marine environment",
+    6: "a crab walking on the ocean floor, realistic, dim colors, clearly visible, blending with the marine environment",
     7: "an eel swimming underwater, realistic, blending with the marine environment",
     8: "a small underwater animal, realistic, blending with the marine environment",
     9: "a piece of clothing as trash underwater, realistic, blending with the environment",

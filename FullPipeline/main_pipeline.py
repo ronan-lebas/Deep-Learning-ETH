@@ -48,7 +48,7 @@ class AugmentationPipeline:
         image_id = self.dataset.get_random_image_id()
         bbox, category = self.dataset.get_random_bbox_and_category(image_id)
         image = self.dataset.load_image(image_id)
-        while not is_image_convenient(image, bbox, 50, 50) or category in self.excluded_categories:
+        while not is_image_convenient(image, bbox, 45, 45) or category in self.excluded_categories:
             image_id = self.dataset.get_random_image_id()
             bbox, category = self.dataset.get_random_bbox_and_category(image_id)
             image = self.dataset.load_image(image_id)
@@ -88,7 +88,7 @@ class AugmentationPipeline:
         output_dir = augmented_dir if augmented_dir is not None else self.augmented_dir
         os.makedirs(output_dir, exist_ok=True)
 
-        for i in tqdm(range(num_images), desc="Generating images"):
+        for i in tqdm(range(0, num_images), desc="Generating images"):
             try:
                 original_image, inpaited_image, metadata = self.generate_one_augmented_image()
             except ValueError as e:
@@ -98,7 +98,7 @@ class AugmentationPipeline:
             inpaited_image.save(os.path.join(output_dir, f"image_{i}_{metadata['image_id']}.png"))
             # add the fileanme to metadata
             metadata["filename"] = f"image_{i}_{metadata['image_id']}.png"
-            with open(os.path.join(output_dir, f"metadata_{i}.json"), "w") as f:
+            with open(os.path.join(output_dir, f"metadata_{i}_{metadata['image_id']}.json"), "w") as f:
                 json.dump(metadata, f)
                 
             # for the report
@@ -113,7 +113,7 @@ class AugmentationPipeline:
         metadata = []
         for filename in os.listdir(output_dir):
         # Check if the filename matches the pattern "metadata_*.json"
-            if re.match(r"metadata_\d+\.json", filename):
+            if re.match(r"metadata_\d+\_\d+.json", filename):
                 file_path = os.path.join(output_dir, filename)
                 with open(file_path, "r") as f:
                     metadata.append(json.load(f))
@@ -138,4 +138,4 @@ if __name__ == "__main__":
         replaced_categories={17: [9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22]} # Replace the unknown category with the trash categories
     )
     
-    pipeline.generate_augmented_images(100)
+    pipeline.generate_augmented_images(5000)
