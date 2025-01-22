@@ -1,0 +1,27 @@
+path: /home/infres/mgirard-22/ETH/Deep-Learning-ETH/TrainingBaselines/datasets/original_plus_augmented_YOLO #Hardcoded for my computer. This path is relative wrt the directory where YOLO is installed
+train: train/images #Relatively to path.
+val: val/images
+
+names:
+    0: rov
+    1: plant
+    2: animal_fish
+    3: animal_starfish
+    5: animal_shells 
+    4: animal_crabh
+    6: animal_eel
+    7: animal_etc
+    8: trash_clothing
+    9: trash_pipe
+    10: trash_bottle
+    11: trash_bag
+    12: trash_snack_wrapper
+    13: trash_can
+    14: trash_cup
+    15: trash_container
+    16: trash_unknown_instance
+    17: trash_branch
+    18: trash_wreckage
+    19: trash_tarp
+    20: trash_rope
+    21: trash_net
